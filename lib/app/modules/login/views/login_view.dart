@@ -1,22 +1,17 @@
 import 'package:cadastro_di/app/app_controller.dart';
-import 'package:cadastro_di/app/data/model/user_model.dart';
-import 'package:cadastro_di/app/modules/home/controllers/home_controller.dart';
 import 'package:cadastro_di/app/routes/app_pages.dart';
 import 'package:cadastro_di/app/widgets/input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 
-class Home extends GetView<HomeController> {
+import '../controllers/login_controller.dart';
+
+class LoginView extends GetView<LoginController> {
+  final TextEditingController nif = TextEditingController();
+  final TextEditingController senha = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    User user = Get.find<AppController>().user;
-    if(user.tbContribuinte==null)
-      Get.toNamed(Routes.LOGIN);
-    controller.nomeControler.text = user.tbContribuinte.tbPessoa.nomePessoa;
-    controller.emailControler.text = user.emailUsuario;
-    controller.telefoneControler.text = user.tbContribuinte.tbPessoa.telefonePessoa;
-    controller.moradaControler.text = user.tbContribuinte.tbPessoa.enderecoPessoa;
     return Scaffold(
       backgroundColor: Colors.blue[50],
       body: Padding(
@@ -46,7 +41,7 @@ class Home extends GetView<HomeController> {
                           Container(
                             padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
                             child: Text(
-                              "Vamos começar a configurar",
+                              "Vá em frente e faça login",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 30.0,
@@ -60,8 +55,7 @@ class Home extends GetView<HomeController> {
                           Container(
                             padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
                             child: Text(
-                              "Deve levar apenas alguns minutos para atualizar "
-                                  "seu registro",
+                              "Deve levar apenas alguns segundos para fazer o login em sua conta",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18.0,
@@ -79,56 +73,37 @@ class Home extends GetView<HomeController> {
                 ),
                 Container(
                   padding: EdgeInsets.only(
-                      top: 15.0, right: 70.0, left: 70.0, bottom: 10.0),
+                      top: 140.0, right: 70.0, left: 70.0, bottom: 5.0),
                   child: Column(
                     children: <Widget>[
                       Text(
-                        "Atualiza-se",
+                        "Login",
                         style: TextStyle(
                             color: Colors.lightBlue,
                             fontWeight: FontWeight.w600,
                             fontSize: 35.0,
                             fontFamily: 'Merriweather'),
                       ),
-                      SizedBox(height: 25.0),
+                      const SizedBox(height: 21.0),
+
+                      //InputField Widget from the widgets folder
                       InputField(
-                        label: "Nome",
-                        content: "imposto",
-                        controller: controller.nomeControler,
-                        onChanged: (v){
-                          user.tbContribuinte.tbPessoa.nomePessoa = v;
-                        },
+                        label: "Nif",
+                        content: "999999999",
+                        controller: nif,
                       ),
+
                       SizedBox(height: 20.0),
+
                       InputField(
-                        label: "Email",
-                        content: "imposto@site.com",
-                        controller: controller.emailControler,
-                        onChanged: (v){
-                          user.emailUsuario = v;
-                        },
+                        label: "Password",
+                        content: "\$\$\$\$\$\$\$",
+                        obscureText: true,
+                        controller: senha,
                       ),
+
                       SizedBox(height: 20.0),
-                      InputField(
-                        label: "Telefone",
-                        content: "9946389",
-                        controller: controller.telefoneControler,
-                        onChanged: (v){
-                          user.tbContribuinte.tbPessoa.telefonePessoa = v;
-                        },
-                      ),
-                      SizedBox(height: 20.0),
-                      InputField(
-                        label: "Morada",
-                        content: "Madre de Deus",
-                        controller: controller.moradaControler,
-                        onChanged: (v){
-                          user.tbContribuinte.tbPessoa.enderecoPessoa = v;
-                        },
-                      ),
-                      SizedBox(
-                        height: 40.0,
-                      ),
+
                       Row(
                         children: <Widget>[
                           SizedBox(
@@ -137,11 +112,13 @@ class Home extends GetView<HomeController> {
                           FlatButton(
                             color: Colors.lightBlue,
                             onPressed: () async {
-                              if(await controller.atualizar()) {
+                              var find = Get.find<AppController>();
+                              if (await find.login(nif.text, senha.text)) {
+                                find.refreshUsuario();
+                                print('ooooooooooooooo');
                                 Get.snackbar(
-                                  "Atualizado com sucesso",
-                                  'Os teus dados foram atualizado na direção '
-                                      'dos impostos',
+                                  "Logado com sucesso",
+                                  'Bem vindo(a)',
                                   colorText: Colors.white,
                                   snackPosition: SnackPosition.BOTTOM,
                                   duration: Duration(seconds: 2),
@@ -149,35 +126,29 @@ class Home extends GetView<HomeController> {
                                 );
                                 Future.delayed(Duration(seconds: 2), () {
                                   controller.circularProgressButaoRegistrar =
-                                  false;
-                                  Get.offAllNamed(Routes.LOGIN);
+                                      false;
+                                  Get.offAllNamed(Routes.HOME);
                                 });
-                              }else{
+                              } else {
+                                print('ooooooooooooooo');
                                 Get.snackbar(
-                                  "Erro ao atualizar",
-                                  'Ouve um problema interno ao atualizar os '
-                                      'teus dados, por favor depois das 24 horas.',
+                                  "Erro ao logar",
+                                  'Nif ou Senha Invalido(a)',
                                   colorText: Colors.white,
                                   snackPosition: SnackPosition.BOTTOM,
                                   duration: Duration(seconds: 2),
                                   backgroundColor: Color(0xFFFE3C3C),
                                 );
+                                Future.delayed(Duration(seconds: 2), () {
+                                  controller.circularProgressButaoRegistrar =
+                                      false;
+                                });
                               }
                             },
                             child: Text(
-                              "Atualizar",
+                              "Login",
                               style: TextStyle(color: Colors.white),
                             ),
-                          ),
-                          SizedBox(
-                            width: 20.0,
-                          ),
-                          FlatButton(
-                            color: Colors.grey[200],
-                            onPressed: () {
-                              Get.offAllNamed(Routes.LOGIN);
-                            },
-                            child: Text("Sair"),
                           ),
                         ],
                       ),

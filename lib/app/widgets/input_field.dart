@@ -4,8 +4,11 @@ class InputField extends StatelessWidget {
   final String label;
   final String content;
   final bool obscureText;
+  final Function(String) onChanged;
+  final TextEditingController controller;
 
-  InputField({this.label, this.content, this.obscureText=false});
+  InputField({this.label, this.content, this.obscureText=false, this.controller,
+    this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,8 @@ class InputField extends StatelessWidget {
               width: MediaQuery.of(context).size.width / 3.7,
               color: Colors.blue[50],
               child: TextField(
+                onChanged: onChanged,
+                controller: controller,
                 obscuringCharacter: "\$",
                 obscureText: obscureText,
                 style: TextStyle(

@@ -1,0 +1,49 @@
+{
+  "idUsuario": 1,
+  "tbContribuinte": {
+    "idContribuinte": 1,
+    "tbGamaNif": {
+      "idGamaNif": 109,
+      "descGamaNif": "PESSOAS SINGULARES",
+      "numGamaNif": 109,
+      "dtAlterGamaNif": "2019-04-08T00:00:00",
+      "dtCriaGamaNif": "2019-04-08T00:00:00"
+    },
+    "tbPessoa": {
+      "idPessoa": 1,
+      "btStatus": false,
+      "nomePessoa": "OOOO8",
+      "sobreNomePessoa": "DA COSTA BARROSO ",
+      "identidade": "78992",
+      "nifPessoa": "109311197",
+      "enderecoPessoa": "FUNDAÇÃO POPULAR",
+      "telefonePessoa": "+239 9905385",
+      "dtAlterPessoa": "2019-04-08",
+      "dtCriaPessoa": "2019-04-08"
+    },
+    "nifContribuinte": "109311197",
+    "criaNifUsuario": "",
+    "alterNifUsuario": "",
+    "dtAlterContribuinte": "2019-04-08",
+    "dtCriaContribuinte": "2019-04-08",
+    "categoria": null
+  },
+  "tbPerfil": {
+    "@idPerfil": 1,
+    "idPerfil": 1,
+    "descPerfil": "admin",
+    "dataCriaPerfil": "2019-04-08",
+    "dataAlterPerfil": "2019-04-08"
+  },
+  "criaNifUsuario": "",
+  "alterNifUsuario": "",
+  "senhaUsuario": "$2a$10$/9azvyS6mo6x6gUposnXfOVnI8QPUzuwmeGIRHFibc4OAcwID9fju",
+  "senhaUsuarioRecuperacao": "$2a$10$HC0dbVnHC3heulLz3KBKDu1Wd0liYZgqVDIoPB14G/tLmfZnpoje.",
+  "emailUsuario": "chravent@gmail.com",
+  "nifUsuario": "109311197",
+  "statusUsuario": false,
+  "isFirst": false,
+  "dataCriaUsuario": "2019-04-08T00:00:00",
+  "dataAlterUsuario": "2020-12-31T00:00:00",
+  "senhaUsuarioConfirmacao": null
+}
